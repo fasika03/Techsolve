@@ -14,8 +14,11 @@ dependencies:
   shared_preferences: ^2.2.3
   uuid: ^4.4.0
   cupertino_icons: ^1.0.6
+<<<<<<< HEAD
   flutter_dotenv: ^5.1.0
   crypto: ^3.0.3
+=======
+>>>>>>> origin/main
 
 dev_dependencies:
   flutter_test:
@@ -24,5 +27,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+<<<<<<< HEAD
   assets:
     - .env
+=======
+>>>>>>> origin/main

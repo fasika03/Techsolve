@@ -9,10 +9,14 @@ mocked data. You provide your own API key in-app.
 
 ## What's implemented (MVP scope)
 
+<<<<<<< HEAD
 - Splash screen (auto-routes to Login or Home based on session)
 - Login / Sign Up screen, plus a "Continue as Guest" option
 - Home screen with category shortcuts and a personalized greeting
 - Settings screen: account info + logout, and Anthropic API key management
+=======
+- Home screen with category shortcuts
+>>>>>>> origin/main
 - Problem input (text description + category)
 - AI-generated diagnostic questions (`AiService.generateDiagnosticQuestions`)
 - AI diagnosis: ranked possible causes + step-by-step solutions
@@ -23,6 +27,7 @@ mocked data. You provide your own API key in-app.
   (`AiService.continueTroubleshooting`)
 - Local history of past sessions (solved/unsolved), persisted with
   `shared_preferences`
+<<<<<<< HEAD
 - Demo mode: if no API key is set, the app runs entirely on canned local
   data (`MockAiService`) — no network, no cost, works offline
 
@@ -43,6 +48,12 @@ doc's plan to eventually use Firebase Authentication or Supabase
 Authentication (section 20). Swapping in real auth later only means
 rewriting `auth_service.dart` — the screens and `AuthProvider` talk to it
 through the same interface and won't need to change.
+=======
+- Settings screen to store your Anthropic API key on-device
+
+Not yet built (see project doc's "Future Features" / "after MVP" list):
+screenshot analysis, voice input, user accounts, multi-language support.
+>>>>>>> origin/main
 
 ## Project structure
 
@@ -50,15 +61,22 @@ through the same interface and won't need to change.
 lib/
 ├── main.dart
 ├── models/            # Problem, DiagnosticQuestion, Cause, Solution, AnalysisResult
+<<<<<<< HEAD
 ├── services/          # ai_service.dart (Anthropic API), mock_ai_service.dart (offline demo mode),
 │                       # auth_service.dart (local accounts), storage_service.dart (history persistence)
 ├── providers/          # TroubleshootProvider (session state), AuthProvider (login/session state)
 ├── screens/            # splash, login, home, problem_input, diagnostic, diagnosis, solutions, guide, verification, history, settings
+=======
+├── services/          # ai_service.dart (Anthropic API), storage_service.dart (local persistence)
+├── providers/          # TroubleshootProvider — session state shared across screens
+├── screens/            # one file per screen (home, problem_input, diagnostic, diagnosis, solutions, guide, verification, history, settings)
+>>>>>>> origin/main
 ├── widgets/            # solution_card.dart
 ├── routes/             # app_routes.dart
 └── utils/              # app_theme.dart, constants.dart
 ```
 
+<<<<<<< HEAD
 ## Running it WITHOUT an API key (demo mode)
 
 You don't need an Anthropic API key to try the app. If no key is found (no
@@ -102,10 +120,18 @@ credits on every hot reload.
    over `.env`.
 
 3. From this folder:
+=======
+## Running it
+
+1. Install Flutter (https://docs.flutter.dev/get-started/install) if you
+   haven't already.
+2. From this folder:
+>>>>>>> origin/main
    ```
    flutter pub get
    flutter run
    ```
+<<<<<<< HEAD
 4. Tap "Describe a Problem" or a category tile and try it end to end, e.g.:
    *"My laptop is very slow when I open applications."*
 
@@ -134,6 +160,20 @@ app at build time) or `shared_preferences` on-device. Both are fine for
 testing on your own phone/emulator, but **don't ship this to an app store
 as-is**: `.env` gets compiled into the release binary and can be extracted
 by anyone who inspects it, same as a key saved in Settings.
+=======
+3. On first launch, tap the settings icon (top right of Home) and paste an
+   Anthropic API key (get one at https://console.anthropic.com/). It's saved
+   locally with `shared_preferences`.
+4. Tap "Describe a Problem" or a category tile and try it end to end, e.g.:
+   *"My laptop is very slow when I open applications."*
+
+## Important: API key handling
+
+Right now the app calls `api.anthropic.com` **directly from the client** for
+speed of prototyping — the key lives in `shared_preferences` on-device. This
+is fine for testing on your own phone/emulator, but **don't ship this to an
+app store as-is**: anyone could extract the key from the app.
+>>>>>>> origin/main
 
 Before a real release, move the three `AiService` calls behind your own
 backend (a Firebase Cloud Function or Supabase Edge Function that holds the
