@@ -1,0 +1,19 @@
+# Secrets — never commit your real API key
+.env
+
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+*.iml
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
