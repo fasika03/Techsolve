@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text(AppConstants.appName),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.settings_outlined, color: AppColors.primary),
             onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
           ),
         ],
@@ -42,18 +42,20 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+
             if (provider.usingMockAi) _ApiKeyBanner(),
+
             _PrimaryActionCard(
               icon: Icons.chat_bubble_outline,
               title: 'Describe a Problem',
-              subtitle:
-                  'Type what\'s going wrong and let TechSolve diagnose it',
+              subtitle: 'Type what\'s going wrong and let TechSolve diagnose it',
               onTap: () {
                 provider.resetSession();
                 Navigator.pushNamed(context, AppRoutes.problemInput);
               },
             ),
             const SizedBox(height: 16),
+
             const Text('Categories',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
@@ -80,6 +82,7 @@ class HomeScreen extends StatelessWidget {
               }).toList(),
             ),
             const SizedBox(height: 20),
+
             Row(
               children: [
                 Expanded(
@@ -233,8 +236,7 @@ class _CategoryTile extends StatelessWidget {
             const SizedBox(height: 6),
             Text(label,
                 textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
           ],
         ),
       ),
