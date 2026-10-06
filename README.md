@@ -1,192 +1,311 @@
-# TechSolve — MVP Scaffold
+# 🛠️ TechSolve — MVP Scaffold
 
-A real, working Flutter MVP of TechSolve: describe a tech problem → answer a
-few diagnostic questions → get AI-ranked causes and step-by-step solutions →
-verify the fix → history is saved on-device.
+A real, working Flutter MVP of TechSolve: describe a tech problem → answer a few diagnostic questions → get AI-ranked causes and step-by-step solutions → verify the fix → history is saved on-device.
 
-The AI diagnosis is **real**, powered by the Anthropic API (Claude) — not
-mocked data. You provide your own API key in-app.
+The AI diagnosis is **real**, powered by the Anthropic API (Claude) — not mocked data. You can provide your own API key in-app.
 
-## What's implemented (MVP scope)
+## 🚀 What's implemented (MVP scope)
 
-<<<<<<< HEAD
-- Splash screen (auto-routes to Login or Home based on session)
-- Login / Sign Up screen, plus a "Continue as Guest" option
-- Home screen with category shortcuts and a personalized greeting
-- Settings screen: account info + logout, and Anthropic API key management
-=======
-- Home screen with category shortcuts
->>>>>>> origin/main
-- Problem input (text description + category)
-- AI-generated diagnostic questions (`AiService.generateDiagnosticQuestions`)
-- AI diagnosis: ranked possible causes + step-by-step solutions
-  (`AiService.analyzeProblem`)
-- Step-by-step guided walkthrough of the chosen solution
-- Verification screen (Yes/No) that either saves the win or asks the AI for
-  the **next best solutions**, excluding what already failed
-  (`AiService.continueTroubleshooting`)
-- Local history of past sessions (solved/unsolved), persisted with
-  `shared_preferences`
-<<<<<<< HEAD
-- Demo mode: if no API key is set, the app runs entirely on canned local
-  data (`MockAiService`) — no network, no cost, works offline
+* 🌟 Splash screen with automatic Login/Home routing
+* 🔐 Login / Sign Up
+* 👤 Continue as Guest
+* 🏠 Home screen with category shortcuts and personalized greeting
+* ⚙️ Settings screen
 
-Not yet built (see project doc's "Future Features" / "after MVP" list):
-screenshot analysis, voice input, multi-language support, real backend
-accounts (see the Accounts note below).
+  * Account information
+  * Logout
+  * Anthropic API key management
+* 📝 Problem input with description and category
+* 🤖 AI-generated diagnostic questions
+* 🔍 AI diagnosis with ranked possible causes
+* 💡 Step-by-step troubleshooting solutions
+* 🧭 Guided solution walkthrough
+* ✅ Verification of the solution
+* 🔄 Next-best solutions when the previous solution fails
+* 📚 Local troubleshooting history
+* 💾 History saved using `shared_preferences`
+* 📴 Offline Demo Mode
+* 🧪 `MockAiService` for testing without API costs
 
-## Accounts: local-only for now
+## 🤖 AI Troubleshooting
 
-Login/Sign Up work for real (name, email, password, validation, error
-messages) but accounts are stored on-device via `shared_preferences` — there
-is no backend yet, so an account created on one device won't be visible on
-another. Passwords are never stored in plain text: each is combined with a
-random per-user salt and hashed with SHA-256 before being saved (see
-`auth_service.dart`) — a reasonable baseline for a local prototype, though a
-real backend should use bcrypt or Argon2 instead. This mirrors the project
-doc's plan to eventually use Firebase Authentication or Supabase
-Authentication (section 20). Swapping in real auth later only means
-rewriting `auth_service.dart` — the screens and `AuthProvider` talk to it
-through the same interface and won't need to change.
-=======
-- Settings screen to store your Anthropic API key on-device
+TechSolve uses Claude through the Anthropic API for:
 
-Not yet built (see project doc's "Future Features" / "after MVP" list):
-screenshot analysis, voice input, user accounts, multi-language support.
->>>>>>> origin/main
+* 🧠 Generating diagnostic questions
+* 🔎 Analyzing technical problems
+* 📊 Ranking possible causes
+* 🛠️ Generating step-by-step solutions
+* 🔄 Finding alternative solutions when a fix fails
 
-## Project structure
+Main service methods:
 
+```text
+AiService.generateDiagnosticQuestions
+AiService.analyzeProblem
+AiService.continueTroubleshooting
 ```
+
+## 📴 Demo Mode
+
+You **do not need an Anthropic API key** to try TechSolve.
+
+When no API key is configured, TechSolve automatically uses `MockAiService`.
+
+Supported categories include:
+
+* 💻 Computer
+* 📱 Phone
+* 🌐 Network
+* 👨‍💻 Programming
+* 🔀 Git/GitHub
+* 🔧 Other
+
+Demo Mode works:
+
+* ⚡ Instantly
+* 📴 Offline
+* 💰 Without API costs
+* 🧪 Without a network connection
+
+A **Demo Mode** indicator appears on the Home screen while the mock service is active.
+
+## 🔐 Accounts
+
+Login and Sign Up currently work locally with:
+
+* 👤 Name
+* 📧 Email
+* 🔑 Password
+* ✅ Validation
+* ⚠️ Error messages
+* 🚪 Logout
+* 🔄 Session management
+
+Accounts are stored locally using `shared_preferences`.
+
+There is currently **no cloud authentication**, so an account created on one device will not be available on another device.
+
+Passwords are not stored as plain text. Each password uses a random per-user salt and SHA-256 hashing.
+
+> ⚠️ For production, authentication should be moved to a secure backend using Firebase Authentication, Supabase Authentication, or another production-grade authentication system.
+
+## 📁 Project Structure
+
+```text
 lib/
 ├── main.dart
-├── models/            # Problem, DiagnosticQuestion, Cause, Solution, AnalysisResult
-<<<<<<< HEAD
-├── services/          # ai_service.dart (Anthropic API), mock_ai_service.dart (offline demo mode),
-│                       # auth_service.dart (local accounts), storage_service.dart (history persistence)
-├── providers/          # TroubleshootProvider (session state), AuthProvider (login/session state)
-├── screens/            # splash, login, home, problem_input, diagnostic, diagnosis, solutions, guide, verification, history, settings
-=======
-├── services/          # ai_service.dart (Anthropic API), storage_service.dart (local persistence)
-├── providers/          # TroubleshootProvider — session state shared across screens
-├── screens/            # one file per screen (home, problem_input, diagnostic, diagnosis, solutions, guide, verification, history, settings)
->>>>>>> origin/main
-├── widgets/            # solution_card.dart
-├── routes/             # app_routes.dart
-└── utils/              # app_theme.dart, constants.dart
+│
+├── models/
+│   └── Problem, DiagnosticQuestion, Cause, Solution, AnalysisResult
+│
+├── services/
+│   ├── ai_service.dart
+│   ├── mock_ai_service.dart
+│   ├── auth_service.dart
+│   └── storage_service.dart
+│
+├── providers/
+│   ├── troubleshoot_provider.dart
+│   └── auth_provider.dart
+│
+├── screens/
+│   ├── splash
+│   ├── login
+│   ├── home
+│   ├── problem_input
+│   ├── diagnostic
+│   ├── diagnosis
+│   ├── solutions
+│   ├── guide
+│   ├── verification
+│   ├── history
+│   └── settings
+│
+├── widgets/
+│   └── solution_card.dart
+│
+├── routes/
+│   └── app_routes.dart
+│
+└── utils/
+    ├── app_theme.dart
+    └── constants.dart
 ```
 
-<<<<<<< HEAD
-## Running it WITHOUT an API key (demo mode)
+## ⚡ Getting Started
 
-You don't need an Anthropic API key to try the app. If no key is found (no
-`.env`, nothing saved in Settings), TechSolve automatically falls back to
-`MockAiService` — a local, offline stand-in that returns realistic canned
-diagnostic questions, causes, and step-by-step solutions per category
-(Computer, Phone, Network, Programming, Git/GitHub, Other). No network call,
-no cost, works instantly.
+### 1️⃣ Install Flutter
 
-You'll see a "Demo mode" banner on the Home screen while this is active.
-The moment you add a real key (via `.env` or Settings), the app switches to
-real Claude-powered analysis automatically — no code changes needed.
+Install Flutter if you haven't already:
 
-This is genuinely useful for two things: (1) trying the whole app for free
-right now, and (2) building/testing new screens later without burning API
-credits on every hot reload.
+[Flutter Installation Guide](https://docs.flutter.dev/get-started/install)
 
-## Running it with real AI
+### 2️⃣ Get the project
 
-1. Install Flutter (https://docs.flutter.dev/get-started/install) if you
-   haven't already.
-2. Add your Anthropic API key (get one at https://console.anthropic.com/).
-   Two ways to do this — pick whichever fits:
+Clone the repository and enter the project directory:
 
-   **Option A — `.env` file (fastest for local dev):**
-   Copy `.env.example` to `.env` in the project root and paste your key in:
-   ```
-   cp .env.example .env
-   ```
-   Then edit `.env`:
-   ```
-   ANTHROPIC_API_KEY=sk-ant-your-real-key-here
-   ```
-   `.env` is already in `.gitignore` — it will never be committed or pushed
-   to GitHub.
+```bash
+git clone https://github.com/fasika03/Techsolve.git
+cd Techsolve
+```
 
-   **Option B — in-app Settings screen:**
-   Skip `.env` and instead tap the gear icon on the Home screen once the app
-   is running, then paste your key there. It's saved on-device via
-   `shared_preferences`. A key entered in Settings always takes priority
-   over `.env`.
+### 3️⃣ Install dependencies
 
-3. From this folder:
-=======
-## Running it
+```bash
+flutter pub get
+```
 
-1. Install Flutter (https://docs.flutter.dev/get-started/install) if you
-   haven't already.
-2. From this folder:
->>>>>>> origin/main
-   ```
-   flutter pub get
-   flutter run
-   ```
-<<<<<<< HEAD
-4. Tap "Describe a Problem" or a category tile and try it end to end, e.g.:
-   *"My laptop is very slow when I open applications."*
+### 4️⃣ Run the application
 
-## Running on Flutter Web
+```bash
+flutter run
+```
 
-If you run with `flutter run -d chrome` (or any web target), API calls need
-an extra opt-in header because browsers block direct cross-origin calls to
-`api.anthropic.com` by default (CORS). This is already handled in
-`ai_service.dart` via the `anthropic-dangerous-direct-browser-access: true`
-header — if you still see `ClientException: Failed to fetch`, double-check
-you're on the latest version of that file and that your API key is actually
-set (an empty/invalid key can also surface as a fetch failure in some
-browsers).
+## 🔑 Configure Anthropic API
 
-Note the "dangerous" in that header name: it's Anthropic's way of flagging
-that anyone with browser dev tools open can read the API key straight out of
-the request. That's an acceptable tradeoff here since it's *your own* key in
-*your own* dev build — just don't ship a build like this to end users with
-your key baked in.
+Get an API key from the [Anthropic Console](https://console.anthropic.com/).
 
-## Important: API key handling
+### Option A — `.env`
 
-Right now the app calls `api.anthropic.com` **directly from the client** for
-speed of prototyping — the key comes from either `.env` (bundled into the
-app at build time) or `shared_preferences` on-device. Both are fine for
-testing on your own phone/emulator, but **don't ship this to an app store
-as-is**: `.env` gets compiled into the release binary and can be extracted
-by anyone who inspects it, same as a key saved in Settings.
-=======
-3. On first launch, tap the settings icon (top right of Home) and paste an
-   Anthropic API key (get one at https://console.anthropic.com/). It's saved
-   locally with `shared_preferences`.
-4. Tap "Describe a Problem" or a category tile and try it end to end, e.g.:
-   *"My laptop is very slow when I open applications."*
+Copy the example file:
 
-## Important: API key handling
+```bash
+cp .env.example .env
+```
 
-Right now the app calls `api.anthropic.com` **directly from the client** for
-speed of prototyping — the key lives in `shared_preferences` on-device. This
-is fine for testing on your own phone/emulator, but **don't ship this to an
-app store as-is**: anyone could extract the key from the app.
->>>>>>> origin/main
+Then add your key:
 
-Before a real release, move the three `AiService` calls behind your own
-backend (a Firebase Cloud Function or Supabase Edge Function that holds the
-key server-side and forwards requests), so the key never reaches the client.
-The `AiService` class is written so this swap is a one-file change — just
-point `_endpoint` at your backend and drop the `x-api-key` header.
+```env
+ANTHROPIC_API_KEY=sk-ant-your-real-key-here
+```
 
-## Next steps toward the full MVP list
+Make sure `.env` is included in `.gitignore`.
 
-- Wire `screens/history_screen.dart` up to a detail view (tap a past problem
-  to see its original diagnosis/solution)
-- Add screenshot upload → the `AiService` can be extended with an image
-  content block in the Anthropic API call for the "Screenshot Analysis"
-  feature described in the project doc
-- Swap `shared_preferences` for Firestore/Supabase once accounts exist, so
-  history syncs across devices
+### Option B — In-App Settings
+
+Run TechSolve and open:
+
+**🏠 Home → ⚙️ Settings → 🔑 Anthropic API Key**
+
+Paste your API key and save it.
+
+The key is stored locally using `shared_preferences`.
+
+## 🌐 Flutter Web
+
+Run TechSolve in Chrome:
+
+```bash
+flutter run -d chrome
+```
+
+The current development implementation uses Anthropic's browser-access header:
+
+```text
+anthropic-dangerous-direct-browser-access: true
+```
+
+> ⚠️ This is intended for development/testing only.
+
+API keys should **never be exposed in a production browser application**.
+
+## 🔒 API Security
+
+The current MVP calls the Anthropic API directly:
+
+```text
+Flutter App
+     │
+     ▼
+Anthropic API
+```
+
+This is convenient for prototyping but **not suitable for production**.
+
+### 🏗️ Production Architecture
+
+The recommended architecture is:
+
+```text
+Flutter App
+     │
+     ▼
+🔐 Your Backend
+     │
+     ▼
+🤖 Anthropic API
+```
+
+Possible backend options:
+
+* 🔥 Firebase Cloud Functions
+* ⚡ Supabase Edge Functions
+* 🖥️ Custom backend API
+
+The Anthropic API key should remain **only on the server**.
+
+## 🗺️ Troubleshooting Flow
+
+```text
+📝 Describe Problem
+        ↓
+❓ Diagnostic Questions
+        ↓
+🤖 AI Analysis
+        ↓
+🔍 Possible Causes
+        ↓
+💡 Solutions
+        ↓
+🧭 Guided Walkthrough
+        ↓
+❓ Did it work?
+      ↙   ↘
+    ✅     ❌
+    ↓       ↓
+💾 Save    🔄 Next Solution
+    ↓
+📚 History
+```
+
+## 🔮 Future Features
+
+* 📸 Screenshot analysis
+* 🎤 Voice input
+* 🌍 Multi-language support
+* ☁️ Cloud authentication
+* 🔄 Cross-device history synchronization
+* 🗂️ Detailed troubleshooting history
+* 🔐 Secure backend API
+* 📊 User troubleshooting statistics
+* ⭐ Solution feedback/rating
+
+## 📌 Development Status
+
+**TechSolve is currently an MVP/prototype.**
+
+The core troubleshooting workflow is functional:
+
+**Problem → Diagnosis → Solution → Verification → History**
+
+The project is being developed with:
+
+* 💙 Flutter
+* 🎯 Dart
+* 🤖 Anthropic Claude API
+* 🔀 Git & GitHub
+* 💾 Shared Preferences
+
+---
+
+### 👨‍💻 Developer
+
+**Fasika Mohammed**
+
+Junior Flutter Developer | Dart | Git & GitHub
+
+GitHub: `fasika03`
+
+---
+
+⭐ **If you find TechSolve useful, consider giving the repository a star!**
